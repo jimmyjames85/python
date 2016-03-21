@@ -2,7 +2,7 @@
 def fib(n):
     a, b = 0, 1
     while b < n:
-        print b,
+        print( b)
         a, b = b, a+b
 
 def fib2(n):

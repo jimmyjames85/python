@@ -1,48 +1,36 @@
 import sys
-sys.path.append('/home/jim/blender/blender-2.76b-linux-glibc211-x86_64/2.76/python/lib/python3.4')
 
-#from Blender import *
-from Tkinter import *
-import tkMessageBox
+
+###### helper functions ######
+def printf(str):
+    print( '%s' %(str), end="")
+    return
+
+def output(str, file=None):
+    printf(str)
+    if(file is not None):
+        file.write(str)
+    return
+
+
+def signOf(num):
+    if(num>0):
+        return 1
+    elif(num<0):
+        return -1
+    return 0
+###### helper functions ######
+
+
 '''
 multi line comment???
-
-
 '''
-i=0
-
-#def helloWorld():
-#        global i
-#        global b
-#        msg="hello world %d" % (i)
-#        print msg
-#        b.configure(text=msg)
-#        i+=1
-
-#top = Tk()
-#b= Button(text="click me now!!!!", command=helloWorld)
-#b.pack()
-
-
-#top.mainloop()
-
-#
-#C = Canvas(top, bg="blue", height=250, width=300)
-#coord = 10, 50, 240 , 210
-#arc = C.create_arc(coord, start=0, extent=150, fill="red")
-#C.pack()
-
-
-
 
 d=0.75000
 h=96
 w=48
 
 objName= '4\'x8\' 3/4" plywood'
-
-
-
 vertices = []
 
 for z in [-h/2, h/2]:
@@ -51,65 +39,68 @@ for z in [-h/2, h/2]:
                 vertices.append([x,y,z])
 
 
-def output(str,fmt)
-print '%str'
-    return
 
-def arrangeFaceVerts(faceVerts):
 
+'''def arrangeFaceVerts(faceVerts):
     ret = []
-    return ret
+    return ret'''
 
 
+#######   MAIN   #######
+#######   MAIN   #######
+#######   MAIN   #######
 
+with open("C:\\Users\\jim\\blenderFiles\\myTest.obj", "w") as f:
+    output('# %s\n' % (objName),f)
+    output('o %s\n' % (objName),f)
 
-with open("/home/jim/blenderFiles/myTest.obj", "w") as f:
-    print '# %s' % (objName)
-    print 'o %s' % (objName)
-    f.write('#----File---- %s\n' % (objName))
-    f.write('o %s\n' % (objName))
     for v in vertices:
-        print 'v %f %f %f' % (v[0]/10.0,v[1]/10.0,v[2]/10.0)
-        f.write('v %f %f %f\n' % (v[0]/10.0,v[1]/10.0,v[2]/10.0))
+        output('v %f %f %f\n' % (v[0] / 10.0, v[1] / 10.0, v[2] / 10.0), f)
 
+    #curAxis represents x, y or z
+    for curAxis in range(0, 3):
 
-    #i represents x, y or z
-    for i in range(0,3):
-        #faceVerts represents the list of vertices that make up the face
+        # Because we center/build our object around (0, 0, 0), each
+        # face shares the same sign along exactly one axis
+        #
+        # s stands for sign...
+        # each sign is either neg or pos
+        # 2 options for sign , 3 options for the axis
+        # This gives us 6 sides
+        #
+        # we collect faces that have the same
+        # sign along the x's, the y's and then the z's (though in no particular order)
+        #
+
+        #faceVerts represents the list of vertices that make up a face
         faceVerts = []
-
-        #s stands for sign we collect faces that are have the same
-        # sign along the x's, the y's or the z's each
-        # sign is either neg or pos
-        # 2 options for sign ,3 options for axis = 6 sides
         for s in [-1,1]:
 
             #collect verts to put into faceVert
             for v in range(0,len(vertices)):
-                if(s<0 and vertices[v][i] < 0):
+                if(s<0 and vertices[v][curAxis] < 0):
                     faceVerts.append(v)
-                elif(s>0 and vertices[v][i] > 0):
+                elif(s>0 and vertices[v][curAxis] > 0):
                     faceVerts.append(v)
 
             #now we need to arange the verts in order
 
-            for vi in range(0,len(faceVerts)):
+            #TODO create a findCommonAxis function for 4 verts
+            #TODO Then travel along the path where each subsequent vertex
+            #TODO has a change in sign in only one of the remaining two axis
 
-                if(faceVerts[vi])
-
-
-            print 'f ',
-            f.write('f ')
+            output('f ',f)
             while len(faceVerts)>0:
                 face= faceVerts.pop() + 1
-                print face,
-                f.write('%d ' % face)
-            print
+                output('%d ' % face, f)
+            output("\n")
             f.write('\n')
     f.close()
 
 
-
+#######   MAIN   #######
+#######   MAIN   #######
+#######   MAIN   #######
 
 
 
