@@ -1,5 +1,6 @@
 from build.materials import *
 from build.objects.hexahedron import *
+from build.objects.cylinder import *
 
 # blenderDir = "/home/jim/blenderFiles/"
 
@@ -25,6 +26,8 @@ with open("%s%s" % (myBlenderDir, objectFileName), "w") as objFile:
         hexStr = createHexahedron(1.5, 3.5, 36, "8ft 2x4", i * 4, 0, 0, "red")
         output("%s" % hexStr, objFile)
 
+    cylStr = createCylinder(6, 4, 32,"cylinder", 0,0,0,"wood")
+    output("%s" % cylStr, objFile)
     # createHexahedron(1.5, 3.5, 96, objFile, "8ft 2x4", 0, 0, 0, "wood")
     # createHexahedron(1.5, 3.5, 96, objFile, "8ft 2x4", 0, 0, -12)
     # createHexahedron(48, 96, 0.75, objFile, "4x8 ply")

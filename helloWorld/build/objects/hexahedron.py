@@ -66,7 +66,7 @@ def __findPath(faceVerts, commonSignAxis):
 __createHexahedron_new_name = 0
 
 
-def createHexahedron(width, height, depth, objName="", offsetX=0, offsetY=0, offsetZ=0, material=None):
+def createHexahedron(width, height, depth, objName="hexaheron", offsetX=0, offsetY=0, offsetZ=0, material=None):
 
     global __createHexahedron_new_name
 
@@ -93,6 +93,7 @@ def createHexahedron(width, height, depth, objName="", offsetX=0, offsetY=0, off
     if(material!=None):
         ret +='usemtl %s\n' % material
 
+    #TODO remove scale...The Blender options allow us to use any metric we like e.g. inches, mm etc
     # we need to scale everything down so our objects will fit in the blender viewport
     # both the offsets and the the vertices below
     scaleAmount = 1
