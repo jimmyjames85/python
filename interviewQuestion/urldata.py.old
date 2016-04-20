@@ -1,0 +1,36 @@
+import urllib2
+import sys
+from utils import *
+
+class UrlData:
+    """Class to hold data retrieved from a URL or the errors encountered during the retrieval process"""
+    
+    url=""
+    httpCode=0
+    data=""
+    
+    def __init__(self, url):
+        self.url = url
+        self.httpCode = 0
+
+        
+    def retrieveData(self):
+
+        try:
+            urlHandler = urllib2.urlopen(self.url)
+            self.data = urlHandler.read()
+            self.code = urlHandler.getcode()
+            
+        except urllib2.URLError as e:
+            self.code = e.code
+            self.data = "%s" % e
+            
+        except:
+            self.data = "UNKOWN ERROR"
+            self.code = -1
+            raise
+
+
+        return self.data
+
+    
