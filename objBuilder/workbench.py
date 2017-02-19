@@ -22,14 +22,16 @@ with open("%s%s" % (myBlenderDir, objectFileName), "w") as objFile:
 
     objs = []
     
-    # # balcony
-    # objs.append(createHexahedron(110, 81, 0.25, "Balcony", 0, 0, -0.25, "plywood"))    
-    # # door jam
-    # objs.append(createHexahedron(3, 33, 95, "Door", 56.5, 0, 47.5, "plywood"))     
+    # balcony
+    objs.append(createHexahedron(110, 81, 0.25, "Balcony", 0, 0, -0.25, "plywood"))    
+    # door jam
+    objs.append(createHexahedron(3, 33, 95, "Door", 56.5, 0, 47.5, "plywood"))     
 
     depth = 24 #26.75
     width = 5*12 # 42.5 
     height = 36 #27.5 
+
+    dividers=2
 
     topThickness = 0.75
     wheelHeight = 5
@@ -38,39 +40,32 @@ with open("%s%s" % (myBlenderDir, objectFileName), "w") as objFile:
     backX = -1*frontX
     topBeamZ = (height - topThickness - 0.75)
     btmBeamZ = (wheelHeight + 0.75)
-    
+
     objs.append(createHexahedron(3.5, width, 1.5, "A: [%s\" 2x4]" % width, frontX, 0, btmBeamZ, "green"))
     objs.append(createHexahedron(3.5, width, 1.5, "B: [%s\" 2x4]" % width, frontX, 0, topBeamZ, "green"))
     objs.append(createHexahedron(3.5, width, 1.5, "C: [%s\" 2x4]" % width, backX, 0, topBeamZ, "green"))
     objs.append(createHexahedron(3.5, width, 1.5, "D: [%s\" 2x4]" % width, backX, 0, btmBeamZ, "green"))
 
     # vertical support posts
-    rightY =(width-1.5)/2
+    rightY =(width-1.5)/2.0
     leftY = -1 * rightY
+    widthY = (rightY - leftY)
     supportHeight = (height - wheelHeight - 3 -topThickness)
     supportZ = wheelHeight + 1.5 + (supportHeight/2)
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "E: [%s\" 2x4]" % supportHeight, frontX, leftY, supportZ, "blue"))
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "F: [%s\" 2x4]" % supportHeight, frontX, 0, supportZ, "blue"))
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "G: [%s\" 2x4]" % supportHeight, frontX, rightY, supportZ, "blue"))
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "H: [%s\" 2x4]" % supportHeight, backX, rightY, supportZ, "blue"))
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "I: [%s\" 2x4]" % supportHeight, backX, 0, supportZ, "blue"))
-    objs.append(createHexahedron(3.5, 1.5, supportHeight, "J: [%s\" 2x4]" % supportHeight, backX, leftY, supportZ, "blue"))
 
+    stepY = (widthY/(1+dividers))
+    for i in range(0,2+dividers):
+        objs.append(createHexahedron(3.5, 1.5, supportHeight, "E: [%s\" 2x4]" % supportHeight, frontX, leftY+i*stepY, supportZ, "blue"))
+        objs.append(createHexahedron(3.5, 1.5, supportHeight, "J: [%s\" 2x4]" % supportHeight, backX, leftY+i*stepY, supportZ, "blue"))
 
     # rails that connect the front and back
     railLength = (depth - 7)
-
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "K: [%s\" 2x4]" % railLength, 0, leftY, wheelHeight+1.75, "red"))
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "L: [%s\" 2x4]" % railLength, 0, 0, wheelHeight+1.75, "red"))
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "M: [%s\" 2x4]" % railLength, 0, rightY, wheelHeight+1.75, "red"))
-
     topRailZ = wheelHeight+3+supportHeight-1.75
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "N: [%s\" 2x4]" % railLength, 0, rightY, topRailZ, "red"))
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "O: [%s\" 2x4]" % railLength, 0, 0, topRailZ, "red"))
-    objs.append(createHexahedron(railLength, 1.5, 3.5, "P: [%s\" 2x4]" % railLength, 0, leftY, topRailZ, "red"))
+    for i in range(0, 2+dividers):
+        objs.append(createHexahedron(railLength, 1.5, 3.5, "K: [%s\" 2x4]" % railLength, 0, leftY + i*stepY, wheelHeight+1.75, "red"))
+        objs.append(createHexahedron(railLength, 1.5, 3.5, "P: [%s\" 2x4]" % railLength, 0, leftY + i*stepY, topRailZ, "red"))
 
-
-#    (+ 36 (/ -1.5 2))
+    #    (+ 36 (/ -1.5 2))
     # for i in range(1,4):
     #     objs.append(createHexahedron(2*12, 6*12, 0.25, "1/4\" 2x6' Benchtop", 0, 0, 36.125 - (i/4.0), "plywood"))
     # objs.append(createHexahedron(2*12, 6*12, 0.75, "3/4\" 2x6' Middle Shelf", 0, 0, 18, "wood"))
